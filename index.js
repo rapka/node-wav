@@ -216,17 +216,18 @@ function decode(buffer) {
       if (!fmt)
         throw new TypeError('Missing "fmt " chunk.');
       let samples = Math.floor(size / fmt.blockSize);
-      let channels = fmt.channels;
+      let { channels, sampleRate, bitDepth, floatingPoint } = fmt.channels;
       let sampleRate = fmt.sampleRate;
       let channelData = [];
       for (let ch = 0; ch < channels; ++ch)
         channelData[ch] = new Float32Array(samples);
-      lookup(data_decoders, fmt.bitDepth, fmt.floatingPoint)(buffer, pos, channelData, channels, samples);
+      lookup(data_decoders, bitDepth, fmt.floatingPoint)(buffer, pos, channelData, channels, samples);
       return {
-        bitDepth: bitDepth,
-        channels: channels,
-        sampleRate: sampleRate,
-        channelData: channelData
+        bitDepth,
+        floatingPoint,
+        channels,
+        sampleRate,
+        channelData,
       };
       break;
     }
