@@ -118,7 +118,7 @@ const data_encoders = {
     let pos = 0;
     for (let i = 0; i < samples; ++i) {
       for (let ch = 0; ch < channels; ++ch) {
-        let v = Math.max(-1, Math.min(input[ch][i], 1));        
+        let v = Math.max(-1, Math.min(input[ch][i], 1));
         output[pos++] = v;
       }
     }
@@ -128,7 +128,7 @@ const data_encoders = {
     let pos = 0;
     for (let i = 0; i < samples; ++i) {
       for (let ch = 0; ch < channels; ++ch) {
-        let v = Math.max(-1, Math.min(input[ch][i], 1));        
+        let v = Math.max(-1, Math.min(input[ch][i], 1));
         output[pos++] = v;
       }
     }
@@ -192,7 +192,7 @@ function decode(buffer) {
     throw new TypeError('Invalid WAV file');
 
   let fmt;
-  
+
   while (pos < end) {
     let type = string(4);
     let size = u32();
@@ -223,6 +223,8 @@ function decode(buffer) {
         channelData[ch] = new Float32Array(samples);
       lookup(data_decoders, fmt.bitDepth, fmt.floatingPoint)(buffer, pos, channelData, channels, samples);
       return {
+        bitDepth: bitDepth,
+        channels: channels,
         sampleRate: sampleRate,
         channelData: channelData
       };
@@ -256,7 +258,7 @@ function encode(channelData, opts) {
     v.setUint32(pos, x, true);
     pos += 4;
   }
-  
+
   function string(s) {
     for (var i = 0; i < s.length; ++i)
       u8(s.charCodeAt(i));
