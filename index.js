@@ -225,6 +225,7 @@ function decode(buffer) {
       return {
         bitDepth: fmt.bitDepth,
         channels: channels,
+        floatingPoint: fmt.floatingPoint,
         sampleRate: sampleRate,
         channelData: channelData
       };
